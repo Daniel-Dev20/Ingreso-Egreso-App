@@ -14,6 +14,12 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { SideBarComponent } from './shared/side-bar/side-bar.component';
 
+//NGRX
+import {StoreModule} from '@ngrx/store';
+import { appReducer } from './app.reducer';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools'
+
+
 //Formularios
 import {ReactiveFormsModule} from  '@angular/forms';
 
@@ -41,7 +47,13 @@ import {AngularFireAuthModule} from "@angular/fire/compat/auth"
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    StoreModule.forRoot(appReducer),
+    StoreDevtoolsModule.instrument({
+
+      maxAge:25,
+      logOnly:environment.production
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

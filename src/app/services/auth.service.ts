@@ -8,6 +8,12 @@ import { formLogin } from '../models/usuario-login.model';
 import { Usuario } from '../models/usuario.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
+
+//NGRX
+import { Store } from '@ngrx/store';
+import { AppState } from '../app.reducer';
+import { setUser, unsetUser } from '../auth/auth.actions';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,16 +21,38 @@ export class AuthService {
 
   constructor(
     private auth:AngularFireAuth,
-    private firestore:AngularFirestore
+    private firestore:AngularFirestore,
+    private store:Store<AppState>
     ) { }
 
   initAuthListener = () => {
 
     this.auth.authState.subscribe(fauser => {
 
-      console.log(fauser);
-      console.log(fauser?.uid);
-      console.log(fauser?.email);
+      if(fauser){
+
+        //si existe
+        this.firestore.doc(`usuarios/${fauser.uid}`).valueChanges().subscribe((fireUser:any) => {
+
+            console.log(fireUser);
+              // const {uid, nombre, email} = fireUser;
+            // const user = Usuario.fromFirebase(uid, nombre, email)
+
+            // const tempUser = new Usuario('2212', 'DANIEL', 'daniel@gmail.com');
+
+            // this.store.dispatch(setUser({user}));
+
+            
+        })
+
+      }else{
+
+        //no existe
+        console.log('llamar unset');
+
+        this.store.dispatch(unsetUser());
+        
+      }
       const email:any = fauser?.email;
       localStorage.setItem('email', email);
     })
