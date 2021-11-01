@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { environment } from '../environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +13,14 @@ import { DetalleComponent } from './ingreso-egreso/detalle/detalle.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { SideBarComponent } from './shared/side-bar/side-bar.component';
+
+//Formularios
+import {ReactiveFormsModule} from  '@angular/forms';
+
+//AngularFire
+import {AngularFireModule} from "@angular/fire/compat";
+import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
+import {AngularFireAuthModule} from "@angular/fire/compat/auth"
 
 @NgModule({
   declarations: [
@@ -28,7 +37,11 @@ import { SideBarComponent } from './shared/side-bar/side-bar.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
+    AngularFireAuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
